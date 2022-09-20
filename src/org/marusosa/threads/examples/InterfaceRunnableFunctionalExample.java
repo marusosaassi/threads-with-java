@@ -5,9 +5,8 @@ import org.marusosa.threads.examples.runnable.TravelTask;
 public class InterfaceRunnableFunctionalExample {
     public static void main(String[] args) {
 
-        Runnable travel = new Runnable() {
-            @Override
-            public void run() {
+        Runnable travel = () ->
+            {
                 for(int i=0; i<10; i++){
                     System.out.println(i + " - " + Thread.currentThread().getName());
                     try {
@@ -17,8 +16,7 @@ public class InterfaceRunnableFunctionalExample {
                     }
                 }
                 System.out.println("I am traveling to " + Thread.currentThread().getName());
-            }
-        };
+            };
 
         new Thread(travel, "Japan").start();
         new Thread(travel, "United Kingdom").start();

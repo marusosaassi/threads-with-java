@@ -3,11 +3,15 @@ package org.marusosa.threads.examples;
 import org.marusosa.threads.examples.runnable.PrintSentences;
 
 public class SyncronizationThreadExample {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         new Thread(new PrintSentences("Hello ", "Goodbye")).start();
         new Thread(new PrintSentences(
                 "My favorite programming language ", "is Java")).start();
-        new Thread(new PrintSentences("Thank you ", "very much")).start();
+        Thread.sleep(100);
+        Thread thread3 = new Thread(new PrintSentences("Thank you ", "very much"));
+        thread3.start();
+        Thread.sleep(100);
+        System.out.println(thread3.getState());
     }
 
     public synchronized static void printSentences(String sentence1, String sentence2) {

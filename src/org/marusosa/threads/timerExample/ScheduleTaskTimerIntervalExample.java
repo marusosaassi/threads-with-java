@@ -1,4 +1,4 @@
-package org.marusosa.threads.TimerExample;
+package org.marusosa.threads.timerExample;
 
 import java.awt.*;
 import java.util.Date;

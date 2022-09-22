@@ -6,11 +6,13 @@ public class Bakery {
 
     public synchronized void toBake(String mass) {
         while (isAvailable) {
-            /*while puts the baker "on hold" when it is true to avoid
+            /* while puts the baker "on hold" when it is true to avoid
              baking in an uncontrolled way. While waits for the consumer
              to eat the bread and isAvailable is equal to false again
              to make more bread.
              If isAvailable=true, we enter wait mode: */
+            /* the synchronized modifier lets us use the methods
+               wait() and hold()*/
             try {
                 wait();
             } catch (InterruptedException e) {

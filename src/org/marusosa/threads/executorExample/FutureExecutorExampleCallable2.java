@@ -7,9 +7,15 @@ public class FutureExecutorExampleCallable2 {
         //ExecutorService executor = Executors.newFixedThreadPool(3);
         //this way, all three tasks will be executed at the same time
 
-        ExecutorService executor = Executors.newFixedThreadPool(2);
+        ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(3);
         // this way, 2 tasks will be executed at the same time and one will be
         // on hold.
+
+        System.out.println("Pool size: " + executor.getPoolSize());
+        System.out.println("Core pool size: " + executor.getCorePoolSize());
+        System.out.println("Largest pool size: " + executor.getLargestPoolSize());
+        System.out.println("Maximum pool size: " + executor.getMaximumPoolSize());
+        System.out.println("Quantity of tasks on hold/queue: " + executor.getQueue().size());
 
         Callable<String> task = () -> {
             System.out.println("Start of the task...");
@@ -36,8 +42,9 @@ public class FutureExecutorExampleCallable2 {
         Future<String> result = executor.submit(task);
         Future<String> result2 = executor.submit(task);
         Future<Integer> result3 = executor.submit(task2);
-        /* We send another 2 tasks to execution but will be on hold */
 
+        System.out.println("Pool size: " + executor.getPoolSize());
+        System.out.println("Quantity of tasks on hold/queue: " + executor.getQueue().size());
         executor.shutdown();
 
         System.out.println("Continuing with the execution of the method main 1");

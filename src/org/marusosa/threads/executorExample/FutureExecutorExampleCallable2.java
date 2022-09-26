@@ -4,8 +4,12 @@ import java.util.concurrent.*;
 
 public class FutureExecutorExampleCallable2 {
     public static void main(String[] args) throws InterruptedException, ExecutionException, TimeoutException {
-        ExecutorService executor = Executors.newSingleThreadExecutor();
+        //ExecutorService executor = Executors.newFixedThreadPool(3);
+        //this way, all three tasks will be executed at the same time
 
+        ExecutorService executor = Executors.newFixedThreadPool(2);
+        // this way, 2 tasks will be executed at the same time and one will be
+        // on hold.
 
         Callable<String> task = () -> {
             System.out.println("Start of the task...");
@@ -38,8 +42,6 @@ public class FutureExecutorExampleCallable2 {
 
         System.out.println("Continuing with the execution of the method main 1");
 
-        //System.out.println(result.isDone());
-
         while(!(result.isDone() && result2.isDone() && result3.isDone())) {
             System.out.println(String.format(
                     "result1: %s - result2: %s - result3: %s",
@@ -50,26 +52,16 @@ public class FutureExecutorExampleCallable2 {
             TimeUnit.MILLISECONDS.sleep(1000);
         }
 
-        System.out.println("We obtain the result of the task " + result.get(5, TimeUnit.SECONDS));
-        /* it is not always good to call the .get() because it blocks the
-        * current thread, it stays on hold until the task is executed and
-        * finalized and returns the value. In our case it is blocked for
-        * three seconds until the task is completed.
-        * When we click run, we can see that get() blocks de main
-        * until the tasks is finished */
-
-        /* We can put a parameter inside the get, for example we can say
-        that the task should take 2 seconds, and if the task takes more
-        than 2 seconds, we can throw a timeout exception
-         */
+        System.out.println("We obtain the result1 of the task " + result.get(5, TimeUnit.SECONDS));
         System.out.println("End of the task: " + result.isDone());
-        //System.out.println(result.isDone());
 
-        /* In conclusion, the only difference between Runnable and Callable
-        * is that Callable returns a value. Both are tasks and both can
-        * be executed or send to execution. Through Future we can
-        * manage it, manipulate it, know if it is finished, iterate,
-        * block the main thread, evoke the result, cancel the tasks, etc. */
+        System.out.println("We obtain the result2 of the task " + result2.get(5, TimeUnit.SECONDS));
+        System.out.println("End of the task: " + result2.isDone());
+
+
+        System.out.println("We obtain the result3 of the task " + result3.get(5, TimeUnit.SECONDS));
+        System.out.println("End of the task: " + result3.isDone());
+
 
     }
 }
